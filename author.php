@@ -3,7 +3,11 @@
 	<div id="primary" class="content-area col-8">
  
  		<main id="main" class="site-main" role="main">
-			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+			<?php if (have_posts()) : ?>
+
+			<h1 class="archive-title"><?php printf( __( 'Author Archives: %s', 'theme' ), '&nbsp;<a href="' . esc_url( get_author_posts_url( get_the_author_meta( "ID" ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a>' ); ?></h1>
+
+			<?php while (have_posts()) : the_post(); ?>
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				    <header>
@@ -16,6 +20,12 @@
   				</div>
   			<?php 
      		endwhile; 
+     		?>
+     			<!--BEGIN .navigation -->
+				<div class="navigation">
+					<?php posts_nav_link( '', __('Previous page','theme'), __('Next page','theme') ); ?>
+				</div> 
+			<?php
      		else: 
   			?>
 				<div id="post-0" class="post error404 not-found">

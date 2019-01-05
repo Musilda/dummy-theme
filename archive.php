@@ -3,7 +3,22 @@
 	<div id="primary" class="content-area col-8">
  
  		<main id="main" class="site-main" role="main">
-			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+			<?php if (have_posts()) : ?>
+
+			<h1 class="archive-title"><?php
+				if ( is_day() ) :
+					printf( __( 'Daily Archives: %s', 'theme' ), '<span>' . get_the_date() . '</span>' );
+				elseif ( is_month() ) :
+					printf( __( 'Monthly Archives: %s', 'theme' ), '<span>' . get_the_date( _x( 'F Y', 'monthly archives date format', 'theme' ) ) . '</span>' );
+				elseif ( is_year() ) :
+					printf( __( 'Yearly Archives: %s', 'theme' ), '<span>' . get_the_date( _x( 'Y', 'yearly archives date format', 'theme' ) ) . '</span>' );
+				else :
+					_e( 'Archives', 'theme' );
+				endif;
+				?>
+      		</h1>
+
+			<?php while (have_posts()) : the_post(); ?>
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 				    <header>
@@ -16,6 +31,12 @@
   				</div>
   			<?php 
      		endwhile; 
+     		?>
+     			<!--BEGIN .navigation -->
+				<div class="navigation">
+					<?php posts_nav_link( '', __('Previous page','theme'), __('Next page','theme') ); ?>
+				</div> 
+			<?php
      		else: 
   			?>
 				<div id="post-0" class="post error404 not-found">
